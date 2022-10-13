@@ -13,8 +13,8 @@ list_out = []
 numb_inputs = int(input())
 
 for i in range(numb_inputs):
-    input = list(input())
-    list_input.append(input)
+    i = list(input())
+    list_input.append(i)
 
 # Percorrendo a lista de entradas
 for inputs in list_input:
@@ -34,30 +34,38 @@ for inputs in list_input:
 
         # Percorrendo as funções de transição
         for transitions in dic['delta']:
-            print("IGUALDADE N FUNFA")
             # Verificando se o estado atual da máquita de turing é igual ao estado atual da função de transição
             if(current_state == transitions[0]):
-                print('Estagio 1')
                 # Verificando se o cabeçote da fita é igual a variávei de leitura da função de transição
-                if(tape_head == transitions[2]):
-                    print('Estagio 3')
+                if(tape_head == str(transitions[2])):
                     # Atualizando o estado atual da máquina de turing proposto de função delta 
                     current_state = transitions[1]
-                    inputs[i] = transitions[3]
-                    print(inputs[i])
+
+                    # Escrevendo o valor que deve ser escrito em cima do valor lido pelo cabeçote da fita
+                    if(tape_head != 'b'):
+                        inputs[i] = str(transitions[3])
                     
                     if(transitions[4] == 'D'):
                         i = i + 1
-                        tape_head = inputs[i]
+                        if(len(inputs) <= i):
+                            tape_head = 'b'
+                        else:
+                            tape_head = inputs[i]
 
                     elif(transitions[4] == 'E'):
                         i = i - 1
-                        tape_head = inputs[i]
+                        if(0 >= i):
+                            tape_head = 'b'
+                        else:
+                            tape_head = inputs[i]
 
                     # Verifica se a função pede para o cabeçote parar
                     elif(transitions[4] == 'P'):
                         tape_integrity = False
-                        print(inputs + "ACEITA")
+                        for i in inputs:
+                            print(i, end='')
+
+                        print(" ACEITA")
 
 
 
