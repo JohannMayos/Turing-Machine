@@ -4,8 +4,6 @@ machine = input()
 
 dic = ast.literal_eval(machine)
 
-print(dic['aceita'])
-
 
 list_input = []
 list_out = []
@@ -31,7 +29,7 @@ for inputs in list_input:
 
     # Loop que verifica se existe alguma função de transição para o estado atual da máquina de turing
     while(tape_integrity):
-
+        tape_integrity = False
         # Percorrendo as funções de transição
         for transitions in dic['delta']:
             # Verificando se o estado atual da máquita de turing é igual ao estado atual da função de transição
@@ -40,11 +38,13 @@ for inputs in list_input:
                 if(tape_head == str(transitions[2])):
                     # Atualizando o estado atual da máquina de turing proposto de função delta 
                     current_state = transitions[1]
+                    tape_integrity = True
 
                     # Escrevendo o valor que deve ser escrito em cima do valor lido pelo cabeçote da fita
                     if(tape_head != 'b'):
                         inputs[i] = str(transitions[3])
                     
+                    # 
                     if(transitions[4] == 'D'):
                         i = i + 1
                         if(len(inputs) <= i):
@@ -62,13 +62,8 @@ for inputs in list_input:
                     # Verifica se a função pede para o cabeçote parar
                     elif(transitions[4] == 'P'):
                         tape_integrity = False
-                        for i in inputs:
-                            print(i, end='')
+                        if(dic['aceita'] == current_state):
+                            for i in inputs:
+                                print(i, end='')
 
-                        print(" ACEITA")
-
-
-
-#print(list_entry[0])
-#list_entry[0][0] = '0'
-#print(list_entry[0])
+                            print(" ACEITA")
